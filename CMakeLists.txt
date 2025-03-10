@@ -285,7 +285,7 @@ set (ALL_INC_DIR
 target_include_directories(_cmd PUBLIC ${ALL_INC_DIR})
 
 add_library(opengl32 STATIC IMPORTED)
-set_target_properties(opengl32 PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/pre-built/linux/libx64/libGL.so)
+set_target_properties(opengl32 PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/pre-built/libx64/libGL.so)
 
 find_package(freetype CONFIG REQUIRED)
 find_package(glew CONFIG REQUIRED)

@@ -1,43 +1,119 @@
 # Unofficial PyMOL GNU Linux Build (Binary Wheel) (WORK IN PROGRESS)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-blue.svg)](https://GitHub.com/urban233/pymol-open-source-linux-build/graphs/commit-activity)
+[![GitHub issues](https://img.shields.io/github/issues/urban233/pymol-open-source-linux-build)](https://GitHub.com/urban233/pymol-open-source-linux-build/issues/)
+[![GitHub contributors](https://img.shields.io/github/contributors/urban233/pymol-open-source-linux-build.svg)](https://GitHub.com/urban233/pymol-open-source-linux-build/graphs/contributors/)
 
 This repository offers **unofficial** binary wheels for the open-source version of PyMOL.
 
-## About PyMOL
+## Contents of this document
+* [About PyMOL](#About-PyMOL)
+* [Contents of this repository](#Contents-of-this-repository)
+  * [Sources](#Sources)
+  * [Documentation](#Documentation)
+  * [Assets](#Assets)
+* [Build](#Build)
+  * [Wheel file](#Wheel-file)
+    * [Pre-built _cmd module](Pre-built-_cmd-module)
+    * [Self built _cmd module](Self-built-_cmd-module)
+  * [From source](#From-source)
+    * [Prerequisites](#Prerequisites)
+    * [Step-by-step guide](#Step-by-step-guide)
+* [Roadmap](#Roadmap)
+* [Acknowledgements](#Acknowledgements)
+<!--* [References and useful links](#References-and-useful-links) -->
 
+## About PyMOL
 [PyMOL™](https://pymol.org/) is a powerful visualization software for rendering and animating 3D molecular structures. PyMOL is a trademark of Schrödinger, LLC.
 
 Please note that the files provided here are **unofficial**. They are informal, unrecognized, and unsupported, offered for testing and evaluation purposes only. No warranty or liability is provided, and the software is made available "as-is."
 
-## Building the Wheel File
-### Prerequisites:
-- CMake
-  - **Be aware**: Add the cmake to your PATH variable. Check by running `cmake --version`
+## Contents of this repository
+### Sources
+All PyMOL sources are directly from the pymol-open-source GitHub repository
+and are only cloned during the setup process. A stable version is also 
+checked out to avoid build failures due to development code.
 
-### Steps to build the wheel file
-To build the wheel file, follow these steps (the working directory is the repository root directory):
+### Scripts
+There are two Python scripts that are used for building PyMOL specific
+shader files and for freezing the Python environment using cx_freeze.
 
-1. Set up the build environment by running:
-   ```powershell
-   python run_automation.py setup-dev-env
-   ```
+### Pre-built
+To enable the direct build of a ready-to-use wheel file, a pre-built
+`_cmd` module is already compiled and will be used in the wheel build process
+if no self built one can be found.
+Furthermore, the libGL library is also provided to make the build process
+easier and less error-prone.
 
-2. Once the environment is set up and **activated**, build the wheel file with:
-   ```powershell
-   python run_automation.py build-wheel 
-   ```
-    or if the environment is not activated run:
-    ```powershell
-    ./.venv/bin/python.exe run_automation.py build-wheel
+### Vcpkg
+To make the build process of the `_cmd` module as easy and convenient as 
+possible, the vcpkg package manager is used. The package manager should 
+handle all build dependencies PyMOL needs.
+
+### Edited & alternative design
+To honor Warren L. DeLano the original creator of PyMOL an alternative 
+logo can be used as well as an alternate splash screen. The logo is only altered
+in its color and the splash screen is inspired by early PyMOL versions of 
+Warren himself.
+
+## Build
+### Wheel file
+#### Pre-built _cmd module
+To build the wheel file (based on the provided pre-built `_cmd` module), follow these steps (the working directory is the repository root directory):
+
+1. Set up a Python virtual environment under the project root directory.
+
+2. Install all requirements using the requirements.txt:
+    ```shell
+    pip install -r requirements.txt
     ```
 
-3. After the build process completes, you can find the generated wheel file in the `dist` folder located in the project root.
+3. Set up the build environment by running:
+   ```shell
+   ./run_automation.sh setup-dev-env
+   ```
+
+4. Build the wheel file using the pre-built `_cmd` module
+    ```shell
+    ./run_automation.sh build-wheel
+    ```
+    After a successful build the wheel file can be found under the `dist/` folder.
+
+
+#### Self built _cmd module
+After you have built the `_cmd` module yourself you can run the following command 
+to build the wheel file:
+```shell
+./run_automation.sh build-wheel
+```
+After a successful build the wheel file can be found under the `dist/` folder.
 
 Feel free to contribute or test the files as needed.
 
-## Requirements
-```shell
-sudo apt update -y && sudo apt-get install git build-essential python3.11-dev libglew-dev libpng-dev libfreetype6-dev libxml2-dev libmsgpack-dev python3-pyqt5.qtopengl libglm-dev libnetcdf-dev autoconf
-```
+### From source
+#### Prerequisites:
+- CMake
+    - **Be aware**: Add the cmake to your PATH variable. Check by running `cmake --version`
+- Ubuntu:
+    ```shell
+    sudo apt update -y && sudo apt-get install git build-essential python3.11-dev libglew-dev libpng-dev libfreetype6-dev libxml2-dev libmsgpack-dev python3-pyqt5.qtopengl libglm-dev libnetcdf-dev autoconf
+    ```
+
+#### Step-by-step guide
+1. Load the CMake project (e.g. in PyCharm right-click on the CMakeLists.txt file 
+and select `Load CMake Project`)
+2. Create a `Release` CMake build profile (e.g. in PyCharm click on the CMake 
+icon in the bottom left panel and click on the `Gear icon > CMake Settings`)
+3. Add the following line to your CMake build profile:
+    ```shell
+    -DCMAKE_TOOLCHAIN_FILE=$CMakeProjectDir$/vendor/vcpkg/scripts/buildsystems/vcpkg.cmake
+    ```
+4. Build the project.
+5. **Optional**: If you now run `./run_automation.sh build-wheel` the new 
+wheel file will automatically use your self built `_cmd` module.
+
+## Roadmap
+Until now the build wheel file can only be used with Python 3.11.
+The plan for the future is to support multiple different Python versions.
 
 ## Acknowledgements
 **Schrödinger** for being the driving force behind the continued development of PyMOL after Warren's passing, ensuring that the open-source version remained alive and well. 
