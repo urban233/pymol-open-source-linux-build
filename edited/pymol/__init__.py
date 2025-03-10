@@ -57,14 +57,14 @@ import __main__
 if __name__ == '__main__':
     # *** BEGIN EDITED CODE SEGMENT
     # :author Martin Urban
-    FILE_PATH = pathlib.Path(__file__).parent
-    if 'LD_LIBRARY_PATH' not in os.environ:
-        os.environ['LD_LIBRARY_PATH'] = str(FILE_PATH.parent)
-        try:
-            os.execv(sys.argv[0], sys.argv)
-        except Exception as exc:
-            print('Failed re-exec:', exc)
-            sys.exit(1)
+    # FILE_PATH = pathlib.Path(__file__).parent
+    # if 'LD_LIBRARY_PATH' not in os.environ:
+    #     os.environ['LD_LIBRARY_PATH'] = str(FILE_PATH.parent)
+    #     try:
+    #         os.execv(sys.argv[0], sys.argv)
+    #     except Exception as exc:
+    #         print('Failed re-exec:', exc)
+    #         sys.exit(1)
     # *** END EDITED CODE SEGMENT
 
     # PyMOL launched as "python pymol/__init__.py"
