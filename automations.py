@@ -143,7 +143,7 @@ def setup_dev_env() -> None:
                     pathlib.Path(f"{PROJECT_ROOT_DIR}/vendor/pymol-open-source")])
     subprocess.run(["git", "checkout", "0313aeba9d75f464e4dddccc3bdbee71a5afb049"],
                    cwd=pathlib.Path(f"{PROJECT_ROOT_DIR}/vendor/pymol-open-source"))
-    subprocess.run([pathlib.Path(f"{PROJECT_ROOT_DIR}/.venv/bin/python3.11"), pathlib.Path(f"{PROJECT_ROOT_DIR}/scripts/python/create_generated_files.py")])
+    subprocess.run([pathlib.Path(f"{PROJECT_ROOT_DIR}/.venv/bin/python"), pathlib.Path(f"{PROJECT_ROOT_DIR}/scripts/python/create_generated_files.py")])
   else:
     print("pymol-open-source already setup.")
   # </editor-fold>
